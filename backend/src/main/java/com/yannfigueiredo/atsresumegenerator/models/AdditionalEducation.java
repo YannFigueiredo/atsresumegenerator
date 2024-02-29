@@ -10,10 +10,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 
 @Entity
 @Table(name = "additional_education")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class AdditionalEducation {
     @Id
     @Column(name = "id", unique = true)
