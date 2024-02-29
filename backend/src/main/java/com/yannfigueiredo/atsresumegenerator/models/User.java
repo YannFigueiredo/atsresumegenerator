@@ -1,12 +1,7 @@
 package com.yannfigueiredo.atsresumegenerator.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -40,4 +35,8 @@ public class User {
     @Size(min = 8, max = 30)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @OneToOne
+    @JoinColumn(name = "resume_id", nullable = false, updatable = false)
+    private Resume resume;
 }
