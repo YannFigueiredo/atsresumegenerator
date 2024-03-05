@@ -15,12 +15,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "additional_education")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdditionalEducation {
+public class AdditionalEducation implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
