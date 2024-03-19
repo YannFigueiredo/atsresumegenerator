@@ -80,7 +80,7 @@ public class ExperienceServiceTest {
 
     @Test
     public void findByIdShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(experienceRepository.findById(nonExistingId)).thenThrow(RuntimeException.class);
+        Mockito.when(experienceRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(
           RuntimeException.class,
