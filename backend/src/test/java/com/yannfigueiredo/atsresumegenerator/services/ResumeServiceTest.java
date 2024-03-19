@@ -81,7 +81,7 @@ public class ResumeServiceTest {
     }
 
     @Test
-    public void updateShouldReturnResumeWhenIdDoesNotExists() {
+    public void updateShouldThrowExceptionWhenIdDoesNotExists() {
         Mockito.when(resumeRepository.getReferenceById(nonExistingId)).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(
