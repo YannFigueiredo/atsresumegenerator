@@ -46,4 +46,12 @@ public class Factory {
 
         return experience;
     }
+
+    public static ExperienceDescription createExperienceDescription(String description) {
+        ExperienceDescription experienceDescription = new ExperienceDescription();
+
+        experienceDescription.setDescription(description);
+
+        return experienceDescription;
+    }
 }
