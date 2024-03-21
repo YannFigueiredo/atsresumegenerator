@@ -54,4 +54,32 @@ public class Factory {
 
         return experienceDescription;
     }
+
+    public static Education createEducation(String course) {
+        Education education = new Education();
+
+        education.setCourse(course);
+        education.setConclusionYear("2022");
+        education.setInstitution("UFPA");
+
+        return education;
+    }
+
+    public static AdditionalInfo createAdditionalInfo(String info) {
+        AdditionalInfo additionalInfo = new AdditionalInfo();
+
+        additionalInfo.setInfo(info);
+
+        return additionalInfo;
+    }
+
+    public static AdditionalEducation createAdditionalEducation(String course) {
+        AdditionalEducation additionalEducation = new AdditionalEducation();
+
+        additionalEducation.setCourse(course);
+        additionalEducation.setInstitution("Udemy");
+        additionalEducation.setWorkload(40.0);
+
+        return additionalEducation;
+    }
 }
