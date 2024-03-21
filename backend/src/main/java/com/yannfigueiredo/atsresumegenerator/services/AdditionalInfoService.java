@@ -1,7 +1,7 @@
 package com.yannfigueiredo.atsresumegenerator.services;
 
-import com.yannfigueiredo.atsresumegenerator.models.Education;
-import com.yannfigueiredo.atsresumegenerator.repositories.EducationRepository;
+import com.yannfigueiredo.atsresumegenerator.models.AdditionalInfo;
+import com.yannfigueiredo.atsresumegenerator.repositories.AdditionalInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,63 +10,53 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EducationService {
+public class AdditionalInfoService {
     @Autowired
-    private EducationRepository educationRepository;
+    private AdditionalInfoRepository additionalInfoRepository;
 
-    public List<Education> findAllByResumeId(Long resumeId) {
+    public List<AdditionalInfo> findAllByResumeId(Long resumeId) {
         try {
-            List<Education> educationList = this.educationRepository.findByResumeId(resumeId);
+            List<AdditionalInfo> additionalInfoList = this.additionalInfoRepository.findByResumeId(resumeId);
 
-            return educationList;
+            return additionalInfoList;
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível buscar a lista de educação! Erro: " + e.getMessage());
+            throw new RuntimeException("Não foi possível buscar a lista de informações adicionais! Erro: " + e.getMessage());
         }
     }
 
-    public Education findById(Long id) {
-        Optional<Education> education = this.educationRepository.findById(id);
+    public AdditionalInfo findById(Long id) {
+        Optional<AdditionalInfo> additionalInfo = this.additionalInfoRepository.findById(id);
 
-        return education.orElseThrow(() -> new RuntimeException("Educação não encontrada!"));
+        return additionalInfo.orElseThrow(() -> new RuntimeException("Informação adicional não encontrada!"));
     }
 
     @Transactional
-    public Education create(Education education) {
-        return this.educationRepository.save(education);
+    public AdditionalInfo create(AdditionalInfo additionalInfo) {
+        return this.additionalInfoRepository.save(additionalInfo);
     }
 
     @Transactional
-    public Education update(Long id, Education newEducation) {
+    public AdditionalInfo update(Long id, AdditionalInfo newAdditionalInfo) {
         try {
-            Education education = this.educationRepository.getReferenceById(id);
+            AdditionalInfo additionalInfo = this.additionalInfoRepository.getReferenceById(id);
 
-            education.setCourse(
-                    newEducation.getCourse() != null ?
-                            newEducation.getCourse() :
-                            education.getCourse()
-            );
-            education.setInstitution(
-                    newEducation.getInstitution() != null ?
-                            newEducation.getInstitution() :
-                            education.getInstitution()
-            );
-            education.setConclusionYear(
-                    newEducation.getConclusionYear() != null ?
-                            newEducation.getConclusionYear() :
-                            education.getConclusionYear()
+            additionalInfo.setInfo(
+                    newAdditionalInfo.getInfo() != null ?
+                            newAdditionalInfo.getInfo() :
+                            additionalInfo.getInfo()
             );
 
-            return this.educationRepository.save(education);
+            return this.additionalInfoRepository.save(additionalInfo);
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível atualizar a educação! Erro: " + e.getMessage());
+            throw new RuntimeException("Não foi possível atualizar a informação adicional! Erro: " + e.getMessage());
         }
     }
 
     public void delete(Long id) {
         try {
-            this.educationRepository.deleteById(id);
+            this.additionalInfoRepository.deleteById(id);
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível apagar a educação Erro: !" + e.getMessage());
+            throw new RuntimeException("Não foi possível apagar a informação adicional Erro: !" + e.getMessage());
         }
     }
 }
