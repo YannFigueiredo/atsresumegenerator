@@ -1,8 +1,8 @@
 package com.yannfigueiredo.atsresumegenerator.services;
 
 import com.yannfigueiredo.atsresumegenerator.Factory;
-import com.yannfigueiredo.atsresumegenerator.models.Education;
-import com.yannfigueiredo.atsresumegenerator.repositories.EducationRepository;
+import com.yannfigueiredo.atsresumegenerator.models.AdditionalInfo;
+import com.yannfigueiredo.atsresumegenerator.repositories.AdditionalInfoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,20 +18,20 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class EducationServiceTest {
+public class AdditionalInfoServiceTest {
     @Mock
-    EducationRepository educationRepository;
+    AdditionalInfoRepository additionalInfoRepository;
 
     @InjectMocks
-    EducationService educationService;
+    AdditionalInfoService additionalInfoService;
 
     Long existingId;
     Long existingResumeId;
     Long nonExistingId;
     Long nonExistingResumeId;
-    Education education;
-    Education newEducation;
-    Education updatedEducation;
+    AdditionalInfo additionalInfo;
+    AdditionalInfo newAdditionalInfo;
+    AdditionalInfo updatedAdditionalInfo;
 
     @BeforeEach
     public void setup() {
@@ -39,102 +39,102 @@ public class EducationServiceTest {
         existingResumeId = 1L;
         nonExistingId = 999L;
         nonExistingResumeId = 999L;
-        education = Factory.createEducation("Ciência da Computação");
-        newEducation = Factory.createEducation("Engenharia da Computação");
-        updatedEducation = Factory.createEducation("Engenharia de Software");
+        additionalInfo = Factory.createAdditionalInfo("Possuo curso avançado de Espanhol");
+        newAdditionalInfo = Factory.createAdditionalInfo("Tenho disponibilidade para mudança");
+        updatedAdditionalInfo = Factory.createAdditionalInfo("Possuo curso avançado de Inglês");
     }
 
     @Test
-    public void findAllByResumeIdShouldReturnEducationListWhenIdExists() {
-        Mockito.when(educationRepository.findByResumeId(existingResumeId)).thenReturn(List.of(education, newEducation));
+    public void findAllByResumeIdShouldReturnAdditionalInfoListWhenIdExists() {
+        Mockito.when(additionalInfoRepository.findByResumeId(existingResumeId)).thenReturn(List.of(additionalInfo, newAdditionalInfo));
 
-        List<Education> result = educationService.findAllByResumeId(existingResumeId);
+        List<AdditionalInfo> result = additionalInfoService.findAllByResumeId(existingResumeId);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.size(), 2);
-        Assertions.assertTrue(result.contains(education));
-        verify(educationRepository, times(1)).findByResumeId(existingResumeId);
+        Assertions.assertTrue(result.contains(additionalInfo));
+        verify(additionalInfoRepository, times(1)).findByResumeId(existingResumeId);
     }
 
     @Test
     public void findAllByResumeIdShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(educationRepository.findByResumeId(nonExistingResumeId)).thenThrow(RuntimeException.class);
+        Mockito.when(additionalInfoRepository.findByResumeId(nonExistingResumeId)).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(
                 RuntimeException.class,
-                () -> educationService.findAllByResumeId(nonExistingResumeId)
+                () -> additionalInfoService.findAllByResumeId(nonExistingResumeId)
         );
-        verify(educationRepository, times(1)).findByResumeId(nonExistingResumeId);
+        verify(additionalInfoRepository, times(1)).findByResumeId(nonExistingResumeId);
     }
 
     @Test
-    public void findByIdShouldReturnEducationWhenIdExists() {
-        Mockito.when(educationRepository.findById(existingId)).thenReturn(Optional.of(education));
+    public void findByIdShouldReturnAdditionalInfoWhenIdExists() {
+        Mockito.when(additionalInfoRepository.findById(existingId)).thenReturn(Optional.of(additionalInfo));
 
-        Education result = educationService.findById(existingId);
+        AdditionalInfo result = additionalInfoService.findById(existingId);
 
-        Assertions.assertEquals(result, education);
-        verify(educationRepository, times(1)).findById(existingId);
+        Assertions.assertEquals(result, additionalInfo);
+        verify(additionalInfoRepository, times(1)).findById(existingId);
     }
 
     @Test
     public void findByIdShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(educationRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+        Mockito.when(additionalInfoRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(
                 RuntimeException.class,
-                () -> educationService.findById(nonExistingId)
+                () -> additionalInfoService.findById(nonExistingId)
         );
-        verify(educationRepository, times(1)).findById(nonExistingId);
+        verify(additionalInfoRepository, times(1)).findById(nonExistingId);
     }
 
     @Test
-    public void createShouldReturnEducation() {
-        Mockito.when(educationRepository.save(education)).thenReturn(education);
+    public void createShouldReturnAdditionalInfo() {
+        Mockito.when(additionalInfoRepository.save(additionalInfo)).thenReturn(additionalInfo);
 
-        Education result = educationService.create(education);
+        AdditionalInfo result = additionalInfoService.create(additionalInfo);
 
         Assertions.assertNotNull(result);
-        verify(educationRepository, times(1)).save(education);
+        verify(additionalInfoRepository, times(1)).save(additionalInfo);
     }
 
     @Test
-    public void updateShouldReturnEducationWhenIdExists() {
-        Mockito.when(educationRepository.getReferenceById(existingId)).thenReturn(education);
-        Mockito.when(educationRepository.save(updatedEducation)).thenReturn(updatedEducation);
+    public void updateShouldReturnAdditionalInfoWhenIdExists() {
+        Mockito.when(additionalInfoRepository.getReferenceById(existingId)).thenReturn(additionalInfo);
+        Mockito.when(additionalInfoRepository.save(updatedAdditionalInfo)).thenReturn(updatedAdditionalInfo);
 
-        Education result = educationService.update(existingId, updatedEducation);
+        AdditionalInfo result = additionalInfoService.update(existingId, updatedAdditionalInfo);
 
-        Assertions.assertEquals(result, updatedEducation);
-        verify(educationRepository, times(1)).getReferenceById(existingId);
-        verify(educationRepository, times(1)).save(updatedEducation);
+        Assertions.assertEquals(result, updatedAdditionalInfo);
+        verify(additionalInfoRepository, times(1)).getReferenceById(existingId);
+        verify(additionalInfoRepository, times(1)).save(updatedAdditionalInfo);
     }
 
     @Test
     public void updateShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(educationRepository.getReferenceById(nonExistingId)).thenThrow(RuntimeException.class);
+        Mockito.when(additionalInfoRepository.getReferenceById(nonExistingId)).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(
                 RuntimeException.class,
-                () -> educationService.update(nonExistingId, updatedEducation)
+                () -> additionalInfoService.update(nonExistingId, updatedAdditionalInfo)
         );
-        verify(educationRepository, times(1)).getReferenceById(nonExistingId);
-        verify(educationRepository, never()).save(updatedEducation);
+        verify(additionalInfoRepository, times(1)).getReferenceById(nonExistingId);
+        verify(additionalInfoRepository, never()).save(updatedAdditionalInfo);
     }
 
     @Test
     public void deleteShouldDoNothingWhenIdExists() {
-        Mockito.doNothing().when(educationRepository).deleteById(existingId);
+        Mockito.doNothing().when(additionalInfoRepository).deleteById(existingId);
 
-        Assertions.assertDoesNotThrow(() -> educationService.delete(existingId));
-        verify(educationRepository, times(1)).deleteById(existingId);
+        Assertions.assertDoesNotThrow(() -> additionalInfoService.delete(existingId));
+        verify(additionalInfoRepository, times(1)).deleteById(existingId);
     }
 
     @Test
     public void deleteShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.doThrow(RuntimeException.class).when(educationRepository).deleteById(nonExistingId);
+        Mockito.doThrow(RuntimeException.class).when(additionalInfoRepository).deleteById(nonExistingId);
 
-        Assertions.assertThrows(RuntimeException.class, () -> educationService.delete(nonExistingId));
-        verify(educationRepository, times(1)).deleteById(nonExistingId);
+        Assertions.assertThrows(RuntimeException.class, () -> additionalInfoService.delete(nonExistingId));
+        verify(additionalInfoRepository, times(1)).deleteById(nonExistingId);
     }
 }
