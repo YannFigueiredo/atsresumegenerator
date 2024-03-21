@@ -1,7 +1,7 @@
 package com.yannfigueiredo.atsresumegenerator.services;
 
-import com.yannfigueiredo.atsresumegenerator.models.Experience;
-import com.yannfigueiredo.atsresumegenerator.repositories.ExperienceRepository;
+import com.yannfigueiredo.atsresumegenerator.models.Education;
+import com.yannfigueiredo.atsresumegenerator.repositories.EducationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,69 +10,63 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ExperienceService {
+public class EducationService {
     @Autowired
-    private ExperienceRepository experienceRepository;
+    private EducationRepository educationRepository;
 
-    public List<Experience> findAllByResumeId(Long resumeId) {
+    public List<Education> findAllByResumeId(Long resumeId) {
         try {
-            List<Experience> experienceList = this.experienceRepository.findByResumeId(resumeId);
+            List<Education> educationList = this.educationRepository.findByResumeId(resumeId);
 
-            return experienceList;
+            return educationList;
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível buscar a lista de experiências! Erro: " + e.getMessage());
+            throw new RuntimeException("Não foi possível buscar a lista de educação! Erro: " + e.getMessage());
         }
     }
 
-    public Experience findById(Long id) {
-        Optional<Experience> experience = this.experienceRepository.findById(id);
+    public Education findById(Long id) {
+        Optional<Education> education = this.educationRepository.findById(id);
 
-        return experience.orElseThrow(() -> new RuntimeException("Experiência não encontrada!"));
+        return education.orElseThrow(() -> new RuntimeException("Educação não encontrada!"));
     }
 
     @Transactional
-    public Experience create(Experience experience) {
-        return this.experienceRepository.save(experience);
+    public Education create(Education education) {
+        return this.educationRepository.save(education);
     }
 
     @Transactional
-    public Experience update(Long id, Experience newExperience) {
+    public Education update(Long id, Education newEducation) {
         try {
-            Experience experience = this.experienceRepository.getReferenceById(id);
+            Education education = this.educationRepository.getReferenceById(id);
 
-            experience.setEnterpriseName(
-                    newExperience.getEnterpriseName() != null ?
-                            newExperience.getEnterpriseName() :
-                            experience.getEnterpriseName()
+            education.setCourse(
+                    newEducation.getCourse() != null ?
+                            newEducation.getCourse() :
+                            education.getCourse()
             );
-            experience.setJobTitle(
-                    newExperience.getJobTitle() != null ?
-                            newExperience.getJobTitle() :
-                            experience.getJobTitle()
+            education.setInstitution(
+                    newEducation.getInstitution() != null ?
+                            newEducation.getInstitution() :
+                            education.getInstitution()
             );
-            experience.setExpBegin(
-                    newExperience.getExpBegin() != null ?
-                            newExperience.getExpBegin() :
-                            experience.getExpBegin()
-            );
-            experience.setExpEnd(
-                    newExperience.getExpEnd() != null ?
-                            newExperience.getExpEnd() :
-                            experience.getExpEnd()
-
+            education.setConclusionYear(
+                    newEducation.getConclusionYear() != null ?
+                            newEducation.getConclusionYear() :
+                            education.getConclusionYear()
             );
 
-           return this.experienceRepository.save(experience);
+            return this.educationRepository.save(education);
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível atualizar a experiência! Erro: " + e.getMessage());
+            throw new RuntimeException("Não foi possível atualizar a educação! Erro: " + e.getMessage());
         }
     }
 
     public void delete(Long id) {
         try {
-            this.experienceRepository.deleteById(id);
+            this.educationRepository.deleteById(id);
         } catch(Exception e) {
-            throw new RuntimeException("Não foi possível apagar a experiência Erro: !" + e.getMessage());
+            throw new RuntimeException("Não foi possível apagar a educação Erro: !" + e.getMessage());
         }
     }
 }
