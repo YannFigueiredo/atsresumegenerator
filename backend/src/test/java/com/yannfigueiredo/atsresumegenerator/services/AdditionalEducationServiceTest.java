@@ -1,8 +1,8 @@
 package com.yannfigueiredo.atsresumegenerator.services;
 
 import com.yannfigueiredo.atsresumegenerator.Factory;
-import com.yannfigueiredo.atsresumegenerator.models.Experience;
-import com.yannfigueiredo.atsresumegenerator.repositories.ExperienceRepository;
+import com.yannfigueiredo.atsresumegenerator.models.AdditionalEducation;
+import com.yannfigueiredo.atsresumegenerator.repositories.AdditionalEducationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,24 +15,23 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class ExperienceServiceTest {
+public class AdditionalEducationServiceTest {
     @Mock
-    ExperienceRepository experienceRepository;
+    AdditionalEducationRepository additionalEducationRepository;
 
     @InjectMocks
-    ExperienceService experienceService;
+    AdditionalEducationService additionalEducationService;
 
     Long existingId;
     Long existingResumeId;
     Long nonExistingId;
     Long nonExistingResumeId;
-    Experience experience;
-    Experience newExperience;
-    Experience updatedExperience;
+    AdditionalEducation additionalEducation;
+    AdditionalEducation newAdditionalEducation;
+    AdditionalEducation updatedAdditionalEducation;
 
     @BeforeEach
     public void setup() {
@@ -40,102 +39,102 @@ public class ExperienceServiceTest {
         existingResumeId = 1L;
         nonExistingId = 999L;
         nonExistingResumeId = 999L;
-        experience = Factory.createExperience("Desenvolvedor Java");
-        newExperience = Factory.createExperience("Cientista de Dados");
-        updatedExperience = Factory.createExperience("Desenvolvedor Front-End");
+        additionalEducation = Factory.createAdditionalEducation("Java");
+        newAdditionalEducation = Factory.createAdditionalEducation("Python");
+        updatedAdditionalEducation = Factory.createAdditionalEducation("Banco de Dados MySQL");
     }
 
     @Test
-    public void findAllByResumeIdShouldReturnExperienceListWhenIdExists() {
-        Mockito.when(experienceRepository.findByResumeId(existingResumeId)).thenReturn(List.of(experience, newExperience));
+    public void findAllByResumeIdShouldReturnAdditionalEducationListWhenIdExists() {
+        Mockito.when(additionalEducationRepository.findByResumeId(existingResumeId)).thenReturn(List.of(additionalEducation, newAdditionalEducation));
 
-        List<Experience> result = experienceService.findAllByResumeId(existingResumeId);
+        List<AdditionalEducation> result = additionalEducationService.findAllByResumeId(existingResumeId);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.size(), 2);
-        Assertions.assertTrue(result.contains(experience));
-        verify(experienceRepository, times(1)).findByResumeId(existingResumeId);
+        Assertions.assertTrue(result.contains(additionalEducation));
+        verify(additionalEducationRepository, times(1)).findByResumeId(existingResumeId);
     }
 
     @Test
     public void findAllByResumeIdShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(experienceRepository.findByResumeId(nonExistingResumeId)).thenThrow(RuntimeException.class);
+        Mockito.when(additionalEducationRepository.findByResumeId(nonExistingResumeId)).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(
                 RuntimeException.class,
-                () -> experienceService.findAllByResumeId(nonExistingResumeId)
+                () -> additionalEducationService.findAllByResumeId(nonExistingResumeId)
         );
-        verify(experienceRepository, times(1)).findByResumeId(nonExistingResumeId);
+        verify(additionalEducationRepository, times(1)).findByResumeId(nonExistingResumeId);
     }
 
     @Test
-    public void findByIdShouldReturnExperienceWhenIdExists() {
-        Mockito.when(experienceRepository.findById(existingId)).thenReturn(Optional.of(experience));
+    public void findByIdShouldReturnAdditionalEducationWhenIdExists() {
+        Mockito.when(additionalEducationRepository.findById(existingId)).thenReturn(Optional.of(additionalEducation));
 
-        Experience result = experienceService.findById(existingId);
+        AdditionalEducation result = additionalEducationService.findById(existingId);
 
-        Assertions.assertEquals(result, experience);
-        verify(experienceRepository, times(1)).findById(existingId);
+        Assertions.assertEquals(result, additionalEducation);
+        verify(additionalEducationRepository, times(1)).findById(existingId);
     }
 
     @Test
     public void findByIdShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(experienceRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+        Mockito.when(additionalEducationRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(
-          RuntimeException.class,
-          () -> experienceService.findById(nonExistingId)
+                RuntimeException.class,
+                () -> additionalEducationService.findById(nonExistingId)
         );
-        verify(experienceRepository, times(1)).findById(nonExistingId);
+        verify(additionalEducationRepository, times(1)).findById(nonExistingId);
     }
 
     @Test
-    public void createShouldReturnExperience() {
-        Mockito.when(experienceRepository.save(experience)).thenReturn(experience);
+    public void createShouldReturnAdditionalEducation() {
+        Mockito.when(additionalEducationRepository.save(additionalEducation)).thenReturn(additionalEducation);
 
-        Experience result = experienceService.create(experience);
+        AdditionalEducation result = additionalEducationService.create(additionalEducation);
 
         Assertions.assertNotNull(result);
-        verify(experienceRepository, times(1)).save(experience);
+        verify(additionalEducationRepository, times(1)).save(additionalEducation);
     }
 
     @Test
-    public void updateShouldReturnExperienceWhenIdExists() {
-        Mockito.when(experienceRepository.getReferenceById(existingId)).thenReturn(experience);
-        Mockito.when(experienceRepository.save(updatedExperience)).thenReturn(updatedExperience);
+    public void updateShouldReturnAdditionalEducationWhenIdExists() {
+        Mockito.when(additionalEducationRepository.getReferenceById(existingId)).thenReturn(additionalEducation);
+        Mockito.when(additionalEducationRepository.save(updatedAdditionalEducation)).thenReturn(updatedAdditionalEducation);
 
-        Experience result = experienceService.update(existingId, updatedExperience);
+        AdditionalEducation result = additionalEducationService.update(existingId, updatedAdditionalEducation);
 
-        Assertions.assertEquals(result, updatedExperience);
-        verify(experienceRepository, times(1)).getReferenceById(existingId);
-        verify(experienceRepository, times(1)).save(updatedExperience);
+        Assertions.assertEquals(result, updatedAdditionalEducation);
+        verify(additionalEducationRepository, times(1)).getReferenceById(existingId);
+        verify(additionalEducationRepository, times(1)).save(updatedAdditionalEducation);
     }
 
     @Test
     public void updateShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.when(experienceRepository.getReferenceById(nonExistingId)).thenThrow(RuntimeException.class);
+        Mockito.when(additionalEducationRepository.getReferenceById(nonExistingId)).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(
                 RuntimeException.class,
-                () -> experienceService.update(nonExistingId, updatedExperience)
+                () -> additionalEducationService.update(nonExistingId, updatedAdditionalEducation)
         );
-        verify(experienceRepository, times(1)).getReferenceById(nonExistingId);
-        verify(experienceRepository, never()).save(updatedExperience);
+        verify(additionalEducationRepository, times(1)).getReferenceById(nonExistingId);
+        verify(additionalEducationRepository, never()).save(updatedAdditionalEducation);
     }
 
     @Test
     public void deleteShouldDoNothingWhenIdExists() {
-        Mockito.doNothing().when(experienceRepository).deleteById(existingId);
+        Mockito.doNothing().when(additionalEducationRepository).deleteById(existingId);
 
-        Assertions.assertDoesNotThrow(() -> experienceService.delete(existingId));
-        verify(experienceRepository, times(1)).deleteById(existingId);
+        Assertions.assertDoesNotThrow(() -> additionalEducationService.delete(existingId));
+        verify(additionalEducationRepository, times(1)).deleteById(existingId);
     }
 
     @Test
     public void deleteShouldThrowExceptionWhenIdDoesNotExists() {
-        Mockito.doThrow(RuntimeException.class).when(experienceRepository).deleteById(nonExistingId);
+        Mockito.doThrow(RuntimeException.class).when(additionalEducationRepository).deleteById(nonExistingId);
 
-        Assertions.assertThrows(RuntimeException.class, () -> experienceService.delete(nonExistingId));
-        verify(experienceRepository, times(1)).deleteById(nonExistingId);
+        Assertions.assertThrows(RuntimeException.class, () -> additionalEducationService.delete(nonExistingId));
+        verify(additionalEducationRepository, times(1)).deleteById(nonExistingId);
     }
 }
