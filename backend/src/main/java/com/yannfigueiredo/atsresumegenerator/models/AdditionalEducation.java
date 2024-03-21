@@ -46,7 +46,7 @@ public class AdditionalEducation implements Serializable {
     @Size(min = 1, max = 20)
     @NotBlank
     @NumberFormat(style = NumberFormat.Style.NUMBER)
-    private Float workload;
+    private Double workload;
 
     @ManyToOne
     @JoinColumn(name = "resume_id", nullable = false, updatable = false)
