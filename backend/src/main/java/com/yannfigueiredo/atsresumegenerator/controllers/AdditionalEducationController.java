@@ -1,7 +1,7 @@
 package com.yannfigueiredo.atsresumegenerator.controllers;
 
-import com.yannfigueiredo.atsresumegenerator.models.Education;
-import com.yannfigueiredo.atsresumegenerator.services.EducationService;
+import com.yannfigueiredo.atsresumegenerator.models.AdditionalEducation;
+import com.yannfigueiredo.atsresumegenerator.services.AdditionalEducationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,45 +12,45 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/education")
-public class EducationController {
+@RequestMapping("/additionaleducation")
+public class AdditionalEducationController {
     @Autowired
-    EducationService educationService;
+    AdditionalEducationService additionalEducationService;
 
     @GetMapping(value = "/list/{id}")
-    public ResponseEntity<List<Education>> findAllByResumeId(@PathVariable Long resumeId) {
-        List<Education> objList = this.educationService.findAllByResumeId(resumeId);
+    public ResponseEntity<List<AdditionalEducation>> findAllByResumeId(@PathVariable Long resumeId) {
+        List<AdditionalEducation> objList = this.additionalEducationService.findAllByResumeId(resumeId);
 
         return ResponseEntity.ok().body(objList);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Education> findById(@PathVariable Long id) {
-        Education obj = this.educationService.findById(id);
+    public ResponseEntity<AdditionalEducation> findById(@PathVariable Long id) {
+        AdditionalEducation obj = this.additionalEducationService.findById(id);
 
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<Education> create(@Valid @RequestBody Education obj) {
-        Education education = this.educationService.create(obj);
+    public ResponseEntity<AdditionalEducation> create(@Valid @RequestBody AdditionalEducation obj) {
+        AdditionalEducation additionalEducation = this.additionalEducationService.create(obj);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").
-                buildAndExpand(education.getId()).toUri();
+                buildAndExpand(additionalEducation.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(education);
+        return ResponseEntity.created(uri).body(additionalEducation);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Education> update(@PathVariable Long id, @Valid @RequestBody Education obj) {
-        Education education = this.educationService.update(id, obj);
+    public ResponseEntity<AdditionalEducation> update(@PathVariable Long id, @Valid @RequestBody AdditionalEducation obj) {
+        AdditionalEducation additionalEducation = this.additionalEducationService.update(id, obj);
 
-        return ResponseEntity.ok().body(education);
+        return ResponseEntity.ok().body(additionalEducation);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        this.educationService.delete(id);
+        this.additionalEducationService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
