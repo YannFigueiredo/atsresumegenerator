@@ -49,7 +49,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> badRequestException(
+    public ResponseEntity<StandardError> validationException(
             MethodArgumentNotValidException e,
             HttpServletRequest request
     ) {
